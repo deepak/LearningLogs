@@ -1,0 +1,71 @@
+- reading the "21st Century C" book
+- add a zsh function to make and execute c file
+  function crun() {
+    make $1 CFLAGS='-Wall'
+    ./$1
+  }
+- use pkg-config to search for libs
+  pkg-config --list-all
+  it includes homebrew installed packages
+  eg.
+   > pkg-config --libs libpng libxml-2.0
+   > -L/usr/local/Cellar/libpng/1.6.17/lib -lpng16 -lxml2
+   > pkg-config --cflags libpng libxml-2.0
+   > -I/usr/local/Cellar/libpng/1.6.17/include/libpng16 -I/usr/include/libxml2
+- use `cpp -v` to search paths and other details
+- some useful flags.
+  -g: include debug info
+  -Wall, -Weverything, -Weverything: warnings
+  these warnings are different on gcc and clang.
+  also -Wall, -Wextra and -Wpedantic
+- Makefile
+  target needs to begin with a tab
+  eg.
+  clean:
+	rm -rf $(P) $(P).dSYM
+
+  P=hello
+  OBJECTS=
+  CFLAGS = -g -Wall -O3
+  LDLIBS=
+  #CC=c99
+  CC=clang
+
+  $(P): $(OBJECTS)
+
+  clean:
+	rm -rf $(P) $(P).dSYM
+
+  TODO
+  - -o hello.out and add to gitignore
+  - c99 does not have -Wall ?
+  - syntax to override options
+    eg. CFLAGS ="-g -O3" make
+    without omitting CFLAGS from the Makefile
+
+  why does the one-liner:
+
+  clean: rm -rf $(P) $(P).dSYM
+
+  not work ?
+
+- how to get docs for stdlib.h and stdio.h
+  and see its contents
+  pkg-config --libs --cflags stdlib stdio
+  does not give anything
+- llvm is much more verbose than gdb.
+  particularly for printing
+  look at some common alias
+  search for 'lldbinit' in github
+- how to install and use GCC in osx.
+  does it cause any issues or conflict with llvm ?
+  clang has the '-pg' flag
+  but llvm does not have gprof (is gcc)
+  please have sugested google-perf-tools for cpu profiling
+  any other options on llvm ?
+  or can use gprof with llvm on osx ?
+  http://www.uio.no/studier/emner/matnat/ifi/INF5063/h13/Resources/inf5063-pno-prof-work.pdf
+  talks about
+  - llvm-prof
+  - cachegrind
+  did not find `llvm-prof` on osx ?
